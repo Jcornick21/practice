@@ -270,7 +270,7 @@ def build_index(documents)
       end
     end
   end
-  puts index
+  # puts index
   return index
 end
 
@@ -282,6 +282,7 @@ def search (keywords, index)
   # If it does exist within the index I want 
   # to print the value of that keyword
 
+  # I implemented the algorithm inneficiently by not producing a list of documents with a set keyword then searching only those documents for the next one
   keywords.each do |keyword|
     if index.include?(keyword)
       # for each keyword found in the index
@@ -304,6 +305,7 @@ sort(document_list, keywords)
 end
 
 def sort(doc_list,keywords)
+  # this should generate the first set of prefiltered
   print_list = []
   if doc_list.has_value?(keywords.length)
     doc_list.each do |k, v|
@@ -313,6 +315,22 @@ def sort(doc_list,keywords)
     end
   end
   return print_list
+
+end
+
+def intersect(list_1, list_2)
+  # this can probably be done with binary search
+  intersection_list = []
+  #  measure the length of each of the lists and use the shorter one for the first loop
+
+  list_1.each do |word|
+    if list_2.include?(word)
+      intersection_list.push(word)
+    end
+  end
+
+  puts "INTERSECTION LIST #{intersection_list}"
+  return intersection_list
 
 end
 
@@ -333,10 +351,45 @@ def main(documents)
   print_search_result(["blah"],index)
   print_search_result(["good","lost","sacrifice","hero", "adventure", "bravery"],index)
   print_search_result(["good","lost","sacrifice","hero", "adventure"],index)
+  print_search_result([],index)
 
 
 end
 
-main(all_documents)
+list_1=[1,2,3,]
+list_2=[1,2,4,]
+
+# list_1=[1,2,3,5]
+# list_2=[9,7,4,6]
+
+# list_1=[9,7,2,4]
+# list_2=[9,7,2,4,1,0]
+
+
+
+intersect(list_1,list_2)
+
+# main(all_documents)
 
 # what is my query what is the intersection that query requires me to search?
+
+# Short circuiting
+=begin
+benefit to creating the index is to allows you to create the sets that you want to search 
+create Intersect function() that returns a newlist
+we have created am inverted/reverse  index
+Reduce the problem as much and as quickly as possible
+Intersection Algorithm
+binary search
+
+apple => 1,2,3
+banana => 1,4,5
+cherry => 1,2,5
+
+search the index then that produces a list
+produce another list and then intersect the two lists I have
+so that they produce another list
+then search that list
+
+Think about making a function that takes a query and expected results(creating a basic unit test)
+=end
