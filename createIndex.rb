@@ -270,17 +270,17 @@ def build_index(documents)
       end
     end
   end
-  # puts index
+  puts " This is the index #{index}"
   return index
 end
 
 def search (keywords, index)
-  document_list = {}
+  present_in_index_list = []
 
   # for each keyword I want to know if it 
   # exists within the index
   # If it does exist within the index I want 
-  # to print the value of that keyword
+  # to push the 
 
   # I implemented the algorithm inneficiently by not producing a list of documents with a set keyword then searching only those documents for the next one
   keywords.each do |keyword|
@@ -319,6 +319,8 @@ def sort(doc_list,keywords)
 end
 
 def intersect(list_1, list_2)
+  puts list_1.length == 0 || list_2.length == 0 ? "No matches found": ""
+
   # this can probably be done with binary search
   intersection_list = []
   #  measure the length of each of the lists and use the shorter one for the first loop
@@ -356,20 +358,27 @@ def main(documents)
 
 end
 
-list_1=[1,2,3,]
-list_2=[1,2,4,]
+# list_1=[1,2,3,]
+# list_2=[1,2,4,]
 
-# list_1=[1,2,3,5]
-# list_2=[9,7,4,6]
+# list_3=[1,2,3,5]
+# list_4=[9,7,4,6]
 
-# list_1=[9,7,2,4]
-# list_2=[9,7,2,4,1,0]
+# list_5=[9,7,2,4]
+# list_6=[9,7,2,4,1,0]
+
+# list_7=[]
+# list_8=[3,9,4,1]
 
 
 
-intersect(list_1,list_2)
 
-# main(all_documents)
+# intersect(list_1,list_2)
+# intersect(list_3,list_4)
+# intersect(list_5,list_6)
+# intersect(list_7,list_8)
+
+main(all_documents)
 
 # what is my query what is the intersection that query requires me to search?
 
