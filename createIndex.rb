@@ -280,43 +280,31 @@ def search (keywords, index)
   # for each keyword I want to know if it 
   # exists within the index
   # If it does exist within the index I want 
-  # to push the 
+  # to push the index key value pair into an array
 
-  # I implemented the algorithm inneficiently by not producing a list of documents with a set keyword then searching only those documents for the next one
   keywords.each do |keyword|
     if index.include?(keyword)
-      # for each keyword found in the index
-      # I want to look at each value for that keyword
-      # and assign it a number value
-      index[keyword].each do |document|
-        if document_list[document]
-          document_list[document] += 1
-        else
-          document_list[document] = 1
-          
-        end
+      present_in_index_list.push(index[keyword])
       end
-
-    end
   end
 
-# puts "THIS IS DOCUMENT LIST: #{document_list}"
-sort(document_list, keywords)
+  puts "THIS IS Present in index LIST: #{present_in_index_list}"
+  # sort(document_list, keywords)
 end
 
-def sort(doc_list,keywords)
-  # this should generate the first set of prefiltered
-  print_list = []
-  if doc_list.has_value?(keywords.length)
-    doc_list.each do |k, v|
-      if v == keywords.length
-        print_list.push(k)
-      end
-    end
-  end
-  return print_list
+# def sort(doc_list,keywords)
+#   # this should generate the first set of prefiltered
+#   print_list = []
+#   if doc_list.has_value?(keywords.length)
+#     doc_list.each do |k, v|
+#       if v == keywords.length
+#         print_list.push(k)
+#       end
+#     end
+#   end
+#   return print_list
 
-end
+# end
 
 def intersect(list_1, list_2)
   puts list_1.length == 0 || list_2.length == 0 ? "No matches found": ""
