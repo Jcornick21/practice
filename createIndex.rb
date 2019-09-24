@@ -270,22 +270,43 @@ def build_index(documents)
       end
     end
   end
-  puts " This is the index #{index}"
+  # puts " This is the index #{index}"
   return index
 end
 
 def search (keywords, index)
   present_in_index_list = []
+  pointer_1 = 0
+
 
   # for each keyword I want to know if it 
   # exists within the index
   # If it does exist within the index I want 
   # to push the index key value pair into an array
+  # actually ended up pushing just the  value/list for each pair
 
   keywords.each do |keyword|
+    # This builds a list of sets for keywords that exist in the index
     if index.include?(keyword)
       present_in_index_list.push(index[keyword])
-      end
+    else
+      return "Matches for all those keywords do not exist"
+    end
+  end
+
+  # pass the list and the index into  intersect maybe intersect needs to call itself?
+  # While the pointer_1 is less than the present_in_index_list.length
+  if present_in_index_list.length < 2
+    return present_in_index_list
+  end
+  new_intersection = intersect(present_in_index_list[pointer_1], present_in_index_list[pointer_1+1])
+    pointer_1 += 1
+
+  while pointer_1 < present_in_index_list.length
+
+    new_intersection = intersect(new_intersection, present_in_index_list[pointer_1])
+    pointer_1 +=1
+
   end
 
   puts "THIS IS Present in index LIST: #{present_in_index_list}"
@@ -312,12 +333,28 @@ def intersect(list_1, list_2)
   # this can probably be done with binary search
   intersection_list = []
   #  measure the length of each of the lists and use the shorter one for the first loop
+  list_1_length = list_1.length
+  list_2_length = list_2.length
 
+  if list_1_length > list_2_length
+  list_2.each do |word|
+    if list_1.include?(word)
+      intersection_list.push(word)
+    end
+  end
+elsif list_2_length > list_1_length
   list_1.each do |word|
     if list_2.include?(word)
       intersection_list.push(word)
     end
   end
+else
+  list_1.each do |word|
+    if list_2.include?(word)
+      intersection_list.push(word)
+    end
+  end
+end
 
   puts "INTERSECTION LIST #{intersection_list}"
   return intersection_list
@@ -342,8 +379,6 @@ def main(documents)
   print_search_result(["good","lost","sacrifice","hero", "adventure", "bravery"],index)
   print_search_result(["good","lost","sacrifice","hero", "adventure"],index)
   print_search_result([],index)
-
-
 end
 
 # list_1=[1,2,3,]
