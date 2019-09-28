@@ -1,7 +1,7 @@
 =begin
  I have a thousand documents
- and 5 keywords. How can I print the documents
- that have all five keywords?
+ and (n) number of  keywords. How can I print the documents
+ that have all (n) keywords?
 =end
 
 =begin
@@ -288,13 +288,15 @@ def search (keywords, index)
   # actually ended up pushing just the  value/list for each pair
 
   keywords.each do |keyword|
-    # This builds a list of sets for keywords that exist in the index
+    # This builds a list of key value pairs for keywords that exist in the index
     if index.include?(keyword)
-      present_in_index_list.push({keyword = index[keyword]})
+      present_in_index_list.push({keyword => index[keyword]})
     else
       return "Matches for all those keywords do not exist"
     end
   end
+
+  return puts " This is the filtered list#{present_in_index_list}"
 
   # pass the list and the index into  intersect maybe intersect needs to call itself?
   # While the pointer_1 is less than the present_in_index_list.length
@@ -310,10 +312,8 @@ def search (keywords, index)
     end
     # puts "New Intersection OUTSIDE while #{new_intersection_list}"
 
-    # pointer_1 += 1
-
   while pointer_1 != present_in_index_list.length
-    puts pointer_1
+    # puts pointer_1
 
     new_intersection = intersect(new_intersection_list, present_in_index_list[pointer_1])
     new_intersection.each do |document|
@@ -346,13 +346,21 @@ end
 # end
 
 def intersect(list_1, list_2)
-  puts list_1.length == 0 || list_2.length == 0 ? "No matches found": ""
-
   # this can probably be done with binary search
   intersection_list = []
   #  measure the length of each of the lists and use the shorter one for the first loop
   list_1_length = list_1.length
   list_2_length = list_2.length
+
+  puts list_1_length == 0 && list_2_length == 0 ? "No matches found": ""
+
+  if list_1_length == 0
+    return list_1
+    elsif list_2_length == 0
+      return list_2
+    end
+  end
+
 
   if list_1_length > list_2_length
   list_2.each do |word|
@@ -393,12 +401,12 @@ def main(documents)
   # the search funtion should do this
   print_search_result(["good","hero"], index) #hp summary
   print_search_result(["lost"], index) #hp summary, waves, Riddle and the Rune
-  print_search_result(["good","lost"], index) #hp summary, Riddle 
-  print_search_result(["good"],index)# Riddle, HP summary, TJ
-  print_search_result(["blah"],index)# no match short circuited at the index search
-  print_search_result(["good","lost","sacrifice","hero", "adventure", "bravery"],index)# empty
-  print_search_result(["good","lost","sacrifice","hero", "adventure"],index)#hp summary
-  print_search_result([],index)#empty
+  # print_search_result(["good","lost"], index) #hp summary, Riddle 
+  # print_search_result(["good"],index)# Riddle, HP summary, TJ
+  # print_search_result(["blah"],index)# no match short circuited at the index search
+  # print_search_result(["good","lost","sacrifice","hero", "adventure", "bravery"],index)# empty
+  # print_search_result(["good","lost","sacrifice","hero", "adventure"],index)#hp summary
+  # print_search_result([],index)#empty
 end
 
 # all_documents = [
