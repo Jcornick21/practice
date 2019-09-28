@@ -210,7 +210,8 @@ all_documents = [
   lost: 5,
   sacrifice: 18,
   adventure: 2,
-  bravery: 12
+  bravery: 12,
+  kid: 2
  },
 
  {
@@ -230,7 +231,8 @@ all_documents = [
   lost: 5,
   patience: 18,
   seasons: 2,
-  bravery: 12
+  bravery: 12,
+  kid: 10
  },
 
  {
@@ -288,7 +290,7 @@ def search (keywords, index)
   keywords.each do |keyword|
     # This builds a list of sets for keywords that exist in the index
     if index.include?(keyword)
-      present_in_index_list.push(index[keyword])
+      present_in_index_list.push({keyword = index[keyword]})
     else
       return "Matches for all those keywords do not exist"
     end
@@ -296,21 +298,37 @@ def search (keywords, index)
 
   # pass the list and the index into  intersect maybe intersect needs to call itself?
   # While the pointer_1 is less than the present_in_index_list.length
+  new_intersection_list = []
   if present_in_index_list.length < 2
     return present_in_index_list
   end
   new_intersection = intersect(present_in_index_list[pointer_1], present_in_index_list[pointer_1+1])
-    pointer_1 += 1
+    new_intersection.each do |document|
+      if !(new_intersection_list.include?(document))
+      new_intersection_list << document
+      end
+    end
+    # puts "New Intersection OUTSIDE while #{new_intersection_list}"
 
-  while pointer_1 < present_in_index_list.length
+    # pointer_1 += 1
 
-    new_intersection = intersect(new_intersection, present_in_index_list[pointer_1])
+  while pointer_1 != present_in_index_list.length
+    puts pointer_1
+
+    new_intersection = intersect(new_intersection_list, present_in_index_list[pointer_1])
+    new_intersection.each do |document|
+      if !(new_intersection_list.include?(document))
+      new_intersection_list << document
+      end
+    end
     pointer_1 +=1
+    # puts "New Intersection inside while #{new_intersection_list}"
 
   end
 
-  puts "THIS IS Present in index LIST: #{present_in_index_list}"
+  # puts "THIS IS Present in index LIST: #{present_in_index_list}"
   # sort(document_list, keywords)
+  return new_intersection_list
 end
 
 # def sort(doc_list,keywords)
@@ -356,14 +374,14 @@ else
   end
 end
 
-  puts "INTERSECTION LIST #{intersection_list}"
+  # puts "INTERSECTION LIST #{intersection_list}"
   return intersection_list
 
 end
 
 def print_search_result (keywords,index)
   results = search(keywords,index)
-   puts "Query: #{keywords}"
+   print "Query: #{keywords}"
    puts " Results: #{results}"
 end
 
@@ -373,13 +391,60 @@ def main(documents)
   # I need to find the keywords I input within that index and print out that keywords values
   # Then I can compare those values and pull out the unique elements
   # the search funtion should do this
-  print_search_result(["good","hero"], index)
-  print_search_result(["good"],index)
-  print_search_result(["blah"],index)
-  print_search_result(["good","lost","sacrifice","hero", "adventure", "bravery"],index)
-  print_search_result(["good","lost","sacrifice","hero", "adventure"],index)
-  print_search_result([],index)
+  print_search_result(["good","hero"], index) #hp summary
+  print_search_result(["lost"], index) #hp summary, waves, Riddle and the Rune
+  print_search_result(["good","lost"], index) #hp summary, Riddle 
+  print_search_result(["good"],index)# Riddle, HP summary, TJ
+  print_search_result(["blah"],index)# no match short circuited at the index search
+  print_search_result(["good","lost","sacrifice","hero", "adventure", "bravery"],index)# empty
+  print_search_result(["good","lost","sacrifice","hero", "adventure"],index)#hp summary
+  print_search_result([],index)#empty
 end
+
+# all_documents = [
+#   {
+#   title: "The Riddle and The Rune summary",
+#   good: 10,
+#   lost: 5,
+#   sacrifice: 18,
+#   adventure: 2,
+#   bravery: 12,
+#   kid: 2
+#  },
+
+#  {
+#   title: "Harry Potter summary",
+#   individuals: 10,
+#   lost: 5,
+#   sacrifice: 18,
+#   adventure: 2,
+#   evil: 12,
+#   hero: 25,
+#   good: 13
+#  },
+
+#  {
+#   title: "The Waves Crashed",
+#   flowers: 10,
+#   lost: 5,
+#   patience: 18,
+#   seasons: 2,
+#   bravery: 12,
+#   kid: 10
+#  },
+
+#  {
+#   title: "TJ and the Alley Cat",
+#   good: 10,
+#   kid: 5,
+#   poor: 18,
+#   cat: 2,
+#   evil: 12,
+#   food: 25,
+#   dark: 13
+#  }
+
+# ]
 
 # list_1=[1,2,3,]
 # list_2=[1,2,4,]
