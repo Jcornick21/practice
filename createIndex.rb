@@ -26,181 +26,6 @@ list of documents that include it.
 # what kind of data structure do  I expect the document to be?
 # how can I read a document from another file?
 
-
-# keywords = {
-#   # I dont know if putting empty
-#   # hashes impacts being able to insert documents as keys
-
-#   hero: {}
-#   adventure: {}
-#   sacrifice: {}
-#   individuals:{}
-#   good: {}
-# };
-
-# trying to pull outside txt files and read them
-
-# documents = [createIndex.txt, createIndex_1.txt, createIndex_2.txt];
-
-# def index(documents,keywords)
-#   documents.each do |document|
-
-
-#     f = File.open(document, r)
-#     f.each_line { |line|
-#       puts line.Class
-#       keywords.each do |key, value|
-#       if line.include(key)
-#         keyword[key] = value[document]
-#       end
-#     }
-#     f.close
-#     document.
-#   end
-
-# end
-
-# Trying to use hashes as the storage for the list of documents
-
-# def index (documents,keywords)
-#   documents.each do |document|
-#     keywords.each do |key, value|
-#       # puts "THIS IS THE KEY #{key} \n THIS IS THE VALUE #{value}"
-
-#       if document.has_key?(key)
-#         value.each do |k, v|
-#           value[k] = document[:title]
-#           value[v] = 1
-#         end
-#         # keywords[key] = keywords[key][value] => 
-#         # puts "#{document[:title]} made it to #{keywords[key]}"
-#       # else
-#       #   value[document[:title]]
-#       end
-#       puts "#{keywords[value]}"
-
-#     end
-#   end
-
-# end
-
-
-# keywords_1 = {
-#   # I dont know if putting empty
-#   # hashes impacts being able to insert documents as keys
-
-#   hero: [],
-#   adventure: [],
-#   sacrifice: [],
-#   individuals: [],
-#   good: []
-# };
-
-# documents_in_file = [
-#   {
-#   title: "The Riddle and The Rune summary",
-#   good: 10,
-#   lost: 5,
-#   sacrifice: 18,
-#   adventure: 2,
-#   bravery: 12
-#  },
-
-#  {
-#   title: "Harry Potter summary",
-#   individuals: 10,
-#   lost: 5,
-#   sacrifice: 18,
-#   adventure: 2,
-#   evil: 12,
-#   hero: 25,
-#   good: 13
-#  },
-
-#  {
-#   title: "The Waves Crashed",
-#   flowers: 10,
-#   lost: 5,
-#   patience: 18,
-#   seasons: 2,
-#   bravery: 12
-#  },
-
-#  {
-#   title: "TJ and the Alley Cat",
-#   good: 10,
-#   kid: 5,
-#   poor: 18,
-#   cat: 2,
-#   evil: 12,
-#   food: 25,
-#   dark: 13
-#  }
-
-# ]
-
-# def index (documents,keywords)
-  
-#   documents.each do |document|
-#     keywords.each do |key, value|
-#       if document.has_key?(key)
-#         value.push(document[:title])
-#       end
-#     end
-#   end
-
-#   # now I have a list of what keywords show up in what documents
-#   # I need to find the document that appears in each keyword document list
-
-#   puts keywords
-
-#   i = 0
-#   first_doc = documents[i][:title];
-#   frequency = 0;
-#   print_array = [];
-
-#   while i != keywords.length
-#     if i != documents.length
-#       first_doc = documents[i][:title];
-#     else
-#       first_doc = documents.last[:title];
-#     end
-    
-#       keywords.each do |k, v|
-#         puts "THIS IS FIRST_DOC #{first_doc}"
-        
-#         if v.include?(first_doc)
-#           frequency += 1;
-#         else
-#           frequency = 0
-#           break;
-#         end
-#       end
-
-#       if frequency == keywords.length && i <= documents.length
-#         print_array.push(first_doc)
-#       end 
-#       i += 1
-
-
-#       puts i
-#       puts "THIS IS THE FREQUENCY #{frequency}"
-#       puts "KEYWORD LENGTH #{keywords.length}"
-#       puts "Document LENGTH #{documents.length}"
-#   end
-#   puts "#{print_array}"
-
-#   # This works but needs to be refactored badly
-#   # What happens if the list of documents is longer than the list of keywords
-#   # intersection between n lists n= keywords
-
-# end
-
-
-
-# index(documents_in_file,keywords_1)
-
-
 keywords_1 = {};
 
 all_documents = [
@@ -247,6 +72,7 @@ all_documents = [
  }
 
 ]
+
 def build_index(documents)
   index = {}
   documents.each do |document| 
@@ -262,11 +88,7 @@ def build_index(documents)
           # if the keyword does not exist in the index hash
         # then add it and the document to the hash
         index[keyword] = [document[:title]]
-
         end
-        
-
-
         # this below was a test to make sure what was written in this function worked like a unit test
         # puts " TITLE: #{document[:title]} WORD: #{key}"
       end
@@ -277,106 +99,64 @@ def build_index(documents)
 end
 
 def search (keywords, index)
+  if keywords.length < 1 || keywords == nil
+    return "please enter a valid keyword"
+  end
   present_in_index_list = []
-  pointer_1 = 0
-
-
-  # for each keyword I want to know if it 
-  # exists within the index
-  # If it does exist within the index I want 
-  # to push the index key value pair into an array
-  # actually ended up pushing just the  value/list for each pair
-
   keywords.each do |keyword|
-    # This builds a list of key value pairs for keywords that exist in the index
-    if index.include?(keyword)
-      present_in_index_list.push({keyword => index[keyword]})
-    else
-      return "Matches for all those keywords do not exist"
-    end
-  end
-
-  return puts " This is the filtered list#{present_in_index_list}"
-
-  # pass the list and the index into  intersect maybe intersect needs to call itself?
-  # While the pointer_1 is less than the present_in_index_list.length
-  new_intersection_list = []
-  if present_in_index_list.length < 2
-    return present_in_index_list
-  end
-  new_intersection = intersect(present_in_index_list[pointer_1], present_in_index_list[pointer_1+1])
-    new_intersection.each do |document|
-      if !(new_intersection_list.include?(document))
-      new_intersection_list << document
+      # This builds a list of key value pairs for keywords that exist in the index
+      if index.include?(keyword)
+        present_in_index_list.push(index[keyword])
+      else
+        return "Matches for all those keywords do not exist"
       end
     end
-    # puts "New Intersection OUTSIDE while #{new_intersection_list}"
-
-  while pointer_1 != present_in_index_list.length
-    # puts pointer_1
-
-    new_intersection = intersect(new_intersection_list, present_in_index_list[pointer_1])
-    new_intersection.each do |document|
-      if !(new_intersection_list.include?(document))
-      new_intersection_list << document
-      end
+    pointer = 2
+    if present_in_index_list.length >= 2
+    intersection = intersect(present_in_index_list[0], present_in_index_list[1])
+    while pointer != present_in_index_list.length
+      new_intersection = intersect(intersection, present_in_index_list[pointer])
+      pointer += 1
+      intersection = new_intersection
     end
-    pointer_1 +=1
-    # puts "New Intersection inside while #{new_intersection_list}"
-
+  else
+    intersection = present_in_index_list
   end
-
-  # puts "THIS IS Present in index LIST: #{present_in_index_list}"
-  # sort(document_list, keywords)
-  return new_intersection_list
+    # puts "Intersection #{intersection}"
+    return intersection
 end
 
-# def sort(doc_list,keywords)
-#   # this should generate the first set of prefiltered
-#   print_list = []
-#   if doc_list.has_value?(keywords.length)
-#     doc_list.each do |k, v|
-#       if v == keywords.length
-#         print_list.push(k)
-#       end
-#     end
-#   end
-#   return print_list
-
-# end
-
 def intersect(list_1, list_2)
+    
   # this can probably be done with binary search
   intersection_list = []
   #  measure the length of each of the lists and use the shorter one for the first loop
   list_1_length = list_1.length
   list_2_length = list_2.length
 
-  puts list_1_length == 0 && list_2_length == 0 ? "No matches found": ""
+  # puts list_1_length == 0 && list_2_length == 0 ? "No matches found": ""
 
   if list_1_length == 0
     return list_1
-    elsif list_2_length == 0
+  elsif list_2_length == 0
       return list_2
-    end
   end
-
 
   if list_1_length > list_2_length
   list_2.each do |word|
-    if list_1.include?(word)
+    if list_1.include?(word) && !(intersection_list.include?(word))
       intersection_list.push(word)
     end
   end
 elsif list_2_length > list_1_length
   list_1.each do |word|
-    if list_2.include?(word)
+    if list_2.include?(word) && !(intersection_list.include?(word))
       intersection_list.push(word)
     end
   end
 else
   list_1.each do |word|
-    if list_2.include?(word)
+    if list_2.include?(word) && !(intersection_list.include?(word))
       intersection_list.push(word)
     end
   end
@@ -389,8 +169,8 @@ end
 
 def print_search_result (keywords,index)
   results = search(keywords,index)
-   print "Query: #{keywords}"
-   puts " Results: #{results}"
+   puts "Query: #{keywords}"
+   puts "Results: #{results}"
 end
 
 def main(documents)
@@ -401,8 +181,8 @@ def main(documents)
   # the search funtion should do this
   print_search_result(["good","hero"], index) #hp summary
   print_search_result(["lost"], index) #hp summary, waves, Riddle and the Rune
-  # print_search_result(["good","lost"], index) #hp summary, Riddle 
-  # print_search_result(["good"],index)# Riddle, HP summary, TJ
+  print_search_result(["good","lost"], index) #hp summary, Riddle 
+  print_search_result(["good"],index)# Riddle, HP summary, TJ
   # print_search_result(["blah"],index)# no match short circuited at the index search
   # print_search_result(["good","lost","sacrifice","hero", "adventure", "bravery"],index)# empty
   # print_search_result(["good","lost","sacrifice","hero", "adventure"],index)#hp summary
@@ -465,9 +245,6 @@ end
 
 # list_7=[]
 # list_8=[3,9,4,1]
-
-
-
 
 # intersect(list_1,list_2)
 # intersect(list_3,list_4)
