@@ -130,18 +130,18 @@ def intersect(list_1, list_2)
     
   # this can probably be done with binary search
   intersection_list = []
-  #  measure the length of each of the lists and use the shorter one for the first loop
   list_1_length = list_1.length
   list_2_length = list_2.length
 
   # puts list_1_length == 0 && list_2_length == 0 ? "No matches found": ""
 
   if list_1_length == 0
-    return []
+    return intersection_list 
   elsif list_2_length == 0
-      return []
+      return intersection_list 
   end
   
+ #  measure the length of each of the lists and use the shorter one for the first loop
   shorter = nil
   longer = nil
   if list_1_length >= list_2_length
@@ -259,7 +259,9 @@ Reduce the problem as much and as quickly as possible
 Intersection Algorithm
 binary search
 
-What are the characteristics of this problem that make the solution this/doit this way
+What are the characteristics of this problem that make the solution this/doit this way?
+
+Initializing variables  and changing them based on a condition
 
 apple => 1,2,3
 banana => 1,4,5
