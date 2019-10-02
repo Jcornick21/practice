@@ -137,32 +137,27 @@ def intersect(list_1, list_2)
   # puts list_1_length == 0 && list_2_length == 0 ? "No matches found": ""
 
   if list_1_length == 0
-    return list_1
+    return []
   elsif list_2_length == 0
-      return list_2
+      return []
   end
-
-  if list_1_length > list_2_length
-  list_2.each do |word|
-    if list_1.include?(word) && !(intersection_list.include?(word))
+  
+  shorter = nil
+  longer = nil
+  if list_1_length >= list_2_length
+    shorter = list_2
+    longer = list_1
+  else
+    shorter = list_1
+    longer = list_2
+  end
+ 
+  shorter.each do |word|
+    if longer.include?(word) && !(intersection_list.include?(word))
       intersection_list.push(word)
     end
   end
-elsif list_2_length > list_1_length
-  list_1.each do |word|
-    if list_2.include?(word) && !(intersection_list.include?(word))
-      intersection_list.push(word)
-    end
-  end
-else
-  list_1.each do |word|
-    if list_2.include?(word) && !(intersection_list.include?(word))
-      intersection_list.push(word)
-    end
-  end
-end
-
-  # puts "INTERSECTION LIST #{intersection_list}"
+  puts "INTERSECTION LIST #{intersection_list}"
   return intersection_list
 
 end
@@ -179,10 +174,10 @@ def main(documents)
   # I need to find the keywords I input within that index and print out that keywords values
   # Then I can compare those values and pull out the unique elements
   # the search funtion should do this
-  print_search_result(["good","hero"], index) #hp summary
-  print_search_result(["lost"], index) #hp summary, waves, Riddle and the Rune
-  print_search_result(["good","lost"], index) #hp summary, Riddle 
-  print_search_result(["good"],index)# Riddle, HP summary, TJ
+  # print_search_result(["good","hero"], index) #hp summary
+  # print_search_result(["lost"], index) #hp summary, waves, Riddle and the Rune
+  # print_search_result(["good","lost"], index) #hp summary, Riddle 
+  # print_search_result(["good"],index)# Riddle, HP summary, TJ
   # print_search_result(["blah"],index)# no match short circuited at the index search
   # print_search_result(["good","lost","sacrifice","hero", "adventure", "bravery"],index)# empty
   # print_search_result(["good","lost","sacrifice","hero", "adventure"],index)#hp summary
@@ -234,24 +229,24 @@ end
 
 # ]
 
-# list_1=[1,2,3,]
-# list_2=[1,2,4,]
+list_1=[1,2,3,]
+list_2=[1,2,4,]
 
-# list_3=[1,2,3,5]
-# list_4=[9,7,4,6]
+list_3=[1,2,3,5]
+list_4=[9,7,4,6]
 
-# list_5=[9,7,2,4]
-# list_6=[9,7,2,4,1,0]
+list_5=[9,7,2,4]
+list_6=[9,7,2,4,1,0]
 
-# list_7=[]
-# list_8=[3,9,4,1]
+list_7=[]
+list_8=[3,9,4,1]
 
-# intersect(list_1,list_2)
-# intersect(list_3,list_4)
-# intersect(list_5,list_6)
-# intersect(list_7,list_8)
+intersect(list_1,list_2)
+intersect(list_3,list_4)
+intersect(list_5,list_6)
+intersect(list_7,list_8)
 
-main(all_documents)
+# main(all_documents)
 
 # what is my query what is the intersection that query requires me to search?
 
@@ -263,6 +258,8 @@ we have created am inverted/reverse  index
 Reduce the problem as much and as quickly as possible
 Intersection Algorithm
 binary search
+
+What are the characteristics of this problem that make the solution this/doit this way
 
 apple => 1,2,3
 banana => 1,4,5
